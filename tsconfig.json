@@ -38,8 +38,11 @@
       }
     ],
 
-    // Base Directory
-    "baseUrl": "./src/"
+    // Base Directory & Paths
+    "baseUrl": "./src/",
+    "paths": {
+      "lib/*": ["lib/*"]
+    }
   },
   "include": [
     "cypress.config.ts",

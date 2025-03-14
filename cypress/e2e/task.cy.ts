@@ -74,6 +74,8 @@ describe("Task Page", () => {
       }).then((task: TaskInterface) => {
         cy.visit(`/task/${task.id}`);
 
+        cy.wait(1000);
+
         cy.get("[data-cy=back-button]")
           .should("be.visible")
           .and("contain", "Back to all tasks")

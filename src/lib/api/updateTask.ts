@@ -6,16 +6,13 @@ export const updateTask = async ({
 }: IDInterface & Partial<Omit<TaskInterface, "id">>): Promise<
   Readonly<TaskInterface>
 > => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/tasks/${id}`,
-    {
-      body: JSON.stringify(updatedTask),
-      headers: {
-        "Content-Type": "application/json"
-      },
-      method: "PATCH"
-    }
-  );
+  const response = await fetch(`/api/tasks/${id}`, {
+    body: JSON.stringify(updatedTask),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "PATCH"
+  });
 
   if (!response.ok) {
     throw new Error("Failed to update the task");

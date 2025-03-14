@@ -5,7 +5,7 @@ export const createTask = async ({
   description,
   title
 }: FormInput): Promise<Readonly<TaskInterface>> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks`, {
+  const response = await fetch("/api/tasks", {
     body: JSON.stringify({ color, description, title }),
     headers: {
       "Content-Type": "application/json"

@@ -1,5 +1,7 @@
 "use client";
 
+import * as process from "process";
+
 import React from "react";
 import { MantineProvider } from "@mantine/core";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -14,7 +16,9 @@ const Providers = ({
 }>): React.ReactElement => (
   <QueryClientProvider client={getQueryClient()}>
     <MantineProvider>{children}</MantineProvider>
-    <ReactQueryDevtools />
+    {process.env.NEXT_PUBLIC_NODE_ENV !== "production" && (
+      <ReactQueryDevtools />
+    )}
   </QueryClientProvider>
 );
 

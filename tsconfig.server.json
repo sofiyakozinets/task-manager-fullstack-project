@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "emitDeclarationOnly": false,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "lib": ["esnext"],
+    "types": ["@prisma/client"],
+    "baseUrl": "./src",
+    "paths": {
+      "lib/*": ["lib/*"]
+    }
+  },
+  "include": [
+    "src/backend/**/*.ts",
+    "src/lib/types/**/*.ts",
+    "src/lib/constants/**/*.ts"
+  ],
+  "exclude": [
+    ".next",
+    "cypress",
+    "node_modules",
+    "prisma",
+    "public",
+    "src/app",
+    "src/lib/api",
+    "src/lib/components",
+    "src/lib/utils",
+    "cypress.config.ts",
+    "next.config.ts",
+    "next-env.d.ts"
+  ]
+}

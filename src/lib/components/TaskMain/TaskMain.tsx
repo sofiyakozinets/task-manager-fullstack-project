@@ -51,7 +51,7 @@ const TaskMain = ({ taskId }: { taskId: ID }) => {
 
   if (isPending) return <Text m="lg">Loading...</Text>;
   if (error) return <Text m="lg">Error: {error.message}</Text>;
-  if (!task) return <Text m="lg">Task with this ID does not exist...</Text>;
+  if (!task) return null;
 
   return (
     <Box p="lg">
