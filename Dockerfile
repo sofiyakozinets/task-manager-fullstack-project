@@ -38,7 +38,7 @@ RUN echo "NEXT_PUBLIC_NODE_ENV=${NEXT_PUBLIC_NODE_ENV}" > .env.production && \
     echo "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}" >> .env.production
 
 # Copy files
-COPY next.config.ts next-env.d.ts tsconfig.json ./
+COPY next.config.ts tsconfig.json ./
 COPY ./public ./public
 COPY ./src ./src
 

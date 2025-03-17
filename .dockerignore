@@ -4,4 +4,4 @@
 .yarn
 node_modules
 prisma/database.db
-compose.yml
+docker-compose.yml

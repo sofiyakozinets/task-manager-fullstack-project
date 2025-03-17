@@ -6,6 +6,8 @@ export default defineConfig({
     env: {
       API_URL: "http://localhost:5001/api"
     },
-    supportFile: "cypress/support/e2e.ts"
+    screenshotOnRunFailure: false,
+    supportFile: "cypress/support/e2e.ts",
+    video: false
   }
 });

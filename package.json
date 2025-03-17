@@ -6,10 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "server": "ts-node src/backend/server.ts",
     "build:server": "tsc --project tsconfig.server.json",
     "start:server": "node dist/backend/server.js",
-    "ts:check": "tsc --noEmit",
-    "server": "ts-node src/backend/server.ts",
     "docker": "docker compose down && docker compose up --build",
     "docker:clear": "docker system prune --all --volumes",
     "prisma:generate": "prisma generate",
@@ -18,11 +17,13 @@
     "prisma:pull": "prisma db pull && yarn prisma:generate",
     "prisma:push": "prisma db push && yarn prisma:generate",
     "prisma:studio": "prisma studio",
-    "cypress": "cypress open --e2e",
+    "cypress:e2e": "cypress open --e2e",
+    "test": "cypress run --e2e cypress/e2e/**/*.cy.ts",
     "lint": "eslint \"src/**/*.+(ts|js|tsx)\"",
     "lint:fix": "eslint \"src/**/*.+(ts|js|tsx)\" --fix",
     "format": "prettier . --check",
-    "format:fix": "prettier . --write"
+    "format:fix": "prettier . --write",
+    "ts:check": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.1",
