@@ -21,9 +21,8 @@ export interface BaseTaskInterface {
 
 export interface TaskInterface extends BaseTaskInterface, IDInterface {}
 
-// Create Task Form input
-// export type FormInput = InferType<typeof yupSchema>;
-export type FormInput = {
+// export type TaskFormInput = InferType<typeof yupSchema>;
+export type TaskFormInput = {
   color: Color;
   description?: string;
   title: string;

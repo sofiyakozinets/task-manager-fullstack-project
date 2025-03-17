@@ -4,13 +4,13 @@ A modern, full-stack task management application built with Next.js and Express.
 
 ## Environment Setup
 
-1. Copy the example environment file:
+Copy the example environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-2. Adjust the values in `.env` according to your setup if needed.
+Adjust the values in `.env` according to your setup if needed.
 The default values are configured for local development.
 
 ## Getting Started
@@ -23,7 +23,9 @@ npm run server
 yarn server
 ```
 
-Then, run the development server:
+Now, the API server is running on [http://localhost:5001](http://localhost:5001).
+
+Then, run the Next.js development server:
 
 ```bash
 npm run dev

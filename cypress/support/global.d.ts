@@ -1,15 +1,11 @@
-import { FormInput, TaskInterface } from "lib/types";
+import { TaskFormInput, TaskInterface } from "lib/types";
 
 declare global {
   namespace Cypress {
-    interface Chainable {
-      resetTasks(): Chainable<void>;
-      createTask({
-        color,
-        description,
-        title
-      }: FormInput): Chainable<TaskInterface>;
-      createTaskUI(colorIndex?: number): Chainable<void>;
+    interface Chainable<Subject> {
+      resetTasks(): Chainable<Subject>;
+      createTask(task: TaskFormInput): Chainable<TaskInterface>;
+      createTaskUI(colorIndex?: number): Chainable<Subject>;
     }
   }
 }

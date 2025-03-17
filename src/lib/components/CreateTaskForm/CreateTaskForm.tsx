@@ -6,7 +6,7 @@ import { Button, Fieldset, Textarea, TextInput } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
 
 import { createTask } from "lib/api";
-import { FormInput } from "lib/types";
+import { TaskFormInput } from "lib/types";
 import { getQueryClient } from "lib/utils/getQueryClient";
 
 import ColorPicker from "../ColorPicker";
@@ -22,7 +22,7 @@ const CreateTaskForm = ({
     register,
     setValue,
     watch
-  } = useForm<FormInput>({
+  } = useForm<TaskFormInput>({
     defaultValues: {
       color: "WHITE",
       description: "",
@@ -38,7 +38,9 @@ const CreateTaskForm = ({
     }
   });
 
-  const onSubmit: SubmitHandler<FormInput> = (data: FormInput): void => {
+  const onSubmit: SubmitHandler<TaskFormInput> = (
+    data: TaskFormInput
+  ): void => {
     createTaskMutation.mutate(data);
     onSubmitCallback();
   };
@@ -48,7 +50,7 @@ const CreateTaskForm = ({
       <Fieldset legend="Details">
         <TextInput
           data-cy="title-input"
-          {...register("title" as keyof FormInput, { required: true })}
+          {...register("title" as keyof TaskFormInput, { required: true })}
           error={touchedFields.title && errors.title?.message}
           label="Title"
           placeholder="Enter title"
@@ -56,7 +58,7 @@ const CreateTaskForm = ({
         />
         <Textarea
           data-cy="description-input"
-          {...register("description" as keyof FormInput)}
+          {...register("description" as keyof TaskFormInput)}
           autosize
           description="(optional)"
           error={touchedFields.description && errors.description?.message}
@@ -69,7 +71,7 @@ const CreateTaskForm = ({
       </Fieldset>
       <Fieldset className="red" legend="Color" mt="sm">
         <ColorPicker
-          onPick={(color) => setValue("color" as keyof FormInput, color)}
+          onPick={(color) => setValue("color" as keyof TaskFormInput, color)}
           pickedColor={watch("color") ?? "WHITE"}
         />
       </Fieldset>

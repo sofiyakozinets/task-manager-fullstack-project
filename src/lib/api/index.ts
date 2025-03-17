@@ -1,5 +1,8 @@
-export { createTask } from "./createTask";
-export { deleteTask } from "./deleteTask";
-export { fetchTask } from "./fetchTask";
-export { fetchTasks } from "./fetchTasks";
-export { updateTask } from "./updateTask";
+// For backwards compatibility, export the individual methods
+export {
+  createTask,
+  deleteTask,
+  fetchTask,
+  fetchTasks,
+  updateTask
+} from "./apiMethods";

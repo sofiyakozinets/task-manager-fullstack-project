@@ -1,10 +1,10 @@
-import { FormInput, TaskInterface } from "lib/types";
+import { TaskFormInput, TaskInterface } from "lib/types";
 
 export const createTask = async ({
   color,
   description,
   title
-}: FormInput): Promise<Readonly<TaskInterface>> => {
+}: TaskFormInput): Promise<Readonly<TaskInterface>> => {
   const response = await fetch("/api/tasks", {
     body: JSON.stringify({ color, description, title }),
     headers: {
