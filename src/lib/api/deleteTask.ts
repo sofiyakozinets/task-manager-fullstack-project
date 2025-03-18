@@ -1,7 +1,7 @@
-import { IDInterface } from "lib/types";
+import { ApiPath, ID } from "lib/types";
 
-export const deleteTask = async ({ id }: IDInterface): Promise<any> => {
-  const response = await fetch(`/api/tasks/${id}`, {
+export const deleteTask = async ({ id }: { id: ID }): Promise<void> => {
+  const response = await fetch(`/api/tasks/${id}` as ApiPath, {
     method: "DELETE"
   });
 

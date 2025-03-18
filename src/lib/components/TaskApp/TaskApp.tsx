@@ -8,13 +8,13 @@ import {
   AppShellNavbar
 } from "@mantine/core";
 
-import { IDInterface } from "lib/types";
+import { ID } from "lib/types";
 
 import Header from "../Header";
 import TaskMain from "../TaskMain";
 import TaskNavbar from "../TaskNavbar";
 
-const TaskApp = ({ id }: IDInterface) => (
+const TaskApp = ({ id }: { id: ID }) => (
   <AppShell
     header={{ height: 80 }}
     navbar={{
@@ -29,7 +29,7 @@ const TaskApp = ({ id }: IDInterface) => (
       <TaskNavbar />
     </AppShellNavbar>
     <AppShellMain>
-      <TaskMain taskId={id} />
+      <TaskMain id={id} />
     </AppShellMain>
   </AppShell>
 );

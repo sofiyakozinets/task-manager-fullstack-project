@@ -1,7 +1,7 @@
-import { TaskInterface } from "lib/types";
+import { ApiPath, TaskInterface } from "lib/types";
 
-export const fetchTasks = async (): Promise<ReadonlyArray<TaskInterface>> => {
-  const response = await fetch("/api/tasks");
+export const fetchTasks = async (): Promise<TaskInterface[]> => {
+  const response = await fetch("/api/tasks" as ApiPath);
 
   if (!response.ok) {
     throw new Error("Failed to fetch tasks");

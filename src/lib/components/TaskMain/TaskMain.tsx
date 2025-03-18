@@ -6,12 +6,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import { deleteTask, fetchTask, updateTask } from "lib/api";
-import { CompletedInterface, ID, IDInterface } from "lib/types";
+import { ID } from "lib/types";
 import { getQueryClient } from "lib/utils/getQueryClient";
 
 import TaskExpanded from "../TaskExpanded";
 
-const TaskMain = ({ taskId }: { taskId: ID }) => {
+const TaskMain = ({ id: taskId }: { id: ID }) => {
   const router = useRouter();
 
   const {
@@ -41,11 +41,14 @@ const TaskMain = ({ taskId }: { taskId: ID }) => {
   const handleCompleteTaskToggle = ({
     completed,
     id
-  }: IDInterface & CompletedInterface): void => {
+  }: {
+    id: ID;
+    completed: boolean;
+  }): void => {
     updateTaskMutation.mutate({ completed, id });
   };
 
-  const handleDeleteTask = ({ id }: IDInterface): void => {
+  const handleDeleteTask = ({ id }: { id: ID }): void => {
     deleteTaskMutation.mutate({ id });
   };
 

@@ -1,4 +1,4 @@
-import { TaskFormInput } from "lib/types";
+import { CreateTaskData } from "lib/types";
 
 Cypress.Commands.add("resetTasks", (): void => {
   cy.request("POST", `${Cypress.env("API_URL")}/tasks/reset`);
@@ -6,7 +6,7 @@ Cypress.Commands.add("resetTasks", (): void => {
 
 Cypress.Commands.add(
   "createTask",
-  ({ color, description, title }: TaskFormInput): void => {
+  ({ color, description, title }: CreateTaskData): void => {
     cy.request("POST", `${Cypress.env("API_URL")}/tasks`, {
       color,
       description,

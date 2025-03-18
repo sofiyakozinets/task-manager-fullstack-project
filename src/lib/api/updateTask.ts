@@ -1,12 +1,12 @@
-import { IDInterface, TaskInterface } from "lib/types";
+import { ApiPath, ID, TaskInterface, UpdateTaskData } from "lib/types";
 
 export const updateTask = async ({
   id,
   ...updatedTask
-}: IDInterface & Partial<Omit<TaskInterface, "id">>): Promise<
-  Readonly<TaskInterface>
-> => {
-  const response = await fetch(`/api/tasks/${id}`, {
+}: {
+  id: ID;
+} & UpdateTaskData): Promise<TaskInterface> => {
+  const response = await fetch(`/api/tasks/${id}` as ApiPath, {
     body: JSON.stringify(updatedTask),
     headers: {
       "Content-Type": "application/json"

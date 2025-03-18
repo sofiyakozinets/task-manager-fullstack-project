@@ -1,16 +1,22 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { ColorPicker as ColorPickerBase, DEFAULT_THEME } from "@mantine/core";
+import { ColorPicker as ColorPickerBase } from "@mantine/core";
 
 import { COLORS } from "lib/constants/colors";
 import { Color } from "lib/types";
 
+// Union of hex values
 type ColorHex = (typeof COLORS)[Color];
 
-const COLORS_BY_HEX = Object.fromEntries(
+// Map hex value to color name
+type HexToColor = {
+  [K in Color as (typeof COLORS)[K]]: K;
+};
+
+const HEX_TO_COLOR = Object.fromEntries(
   Object.entries(COLORS).map(([key, value]) => [value, key])
-) as Readonly<Record<ColorHex, Color>>;
+) as Readonly<HexToColor>;
 
 const SWATCHES: Array<ColorHex> = [
   COLORS.WHITE,
@@ -28,8 +34,8 @@ type ColorPickerProps = {
 };
 
 const ColorPicker = ({ onPick, pickedColor }: ColorPickerProps) => {
-  const handleChange = (colorHex: ColorHex): void => {
-    onPick(COLORS_BY_HEX[colorHex]);
+  const handleChange = (colorHex: string): void => {
+    onPick(HEX_TO_COLOR[colorHex as ColorHex]);
   };
 
   useEffect((): void => {
@@ -43,7 +49,7 @@ const ColorPicker = ({ onPick, pickedColor }: ColorPickerProps) => {
       `.mantine-ColorPicker-swatches button[aria-label="${COLORS[pickedColor]}"]`
     );
     if (pickedSwatch) {
-      pickedSwatch.style.outline = `1px solid ${DEFAULT_THEME.colors.gray[7]}`;
+      pickedSwatch.style.outline = `1px solid #495057`;
     }
   }, [pickedColor]);
 

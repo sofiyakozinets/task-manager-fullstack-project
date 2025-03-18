@@ -1,6 +1,6 @@
 import { ApiClient } from "./ApiClient";
 
-// Get the singleton instance
+// Get the Singleton instance
 const taskApi = ApiClient.getInstance();
 
 export const createTask = taskApi.createTask.bind(taskApi);

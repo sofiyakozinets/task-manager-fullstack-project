@@ -1,9 +1,7 @@
-import { IDInterface, TaskInterface } from "lib/types";
+import { ApiPath, ID, TaskInterface } from "lib/types";
 
-export const fetchTask = async ({
-  id
-}: IDInterface): Promise<Readonly<TaskInterface>> => {
-  const response = await fetch(`/api/tasks/${id}`);
+export const fetchTask = async ({ id }: { id: ID }): Promise<TaskInterface> => {
+  const response = await fetch(`/api/tasks/${id}` as ApiPath);
 
   if (!response.ok) {
     if (response.status === 404) {

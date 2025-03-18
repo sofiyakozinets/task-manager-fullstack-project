@@ -5,15 +5,11 @@ import { ActionIcon, Button, Card, Group, Text, Title } from "@mantine/core";
 import { IconExternalLink } from "@tabler/icons-react";
 
 import { COLORS } from "lib/constants/colors";
-import { BaseTaskInterface } from "lib/types";
+import { TaskComponentProps, TaskVariant } from "lib/types";
 
 import styles from "./task.module.css";
 
-interface TaskProps extends BaseTaskInterface {
-  onCompleteToggle: () => void;
-  onDelete: () => void;
-  onOpen: () => void;
-}
+type TaskProps = TaskComponentProps<TaskVariant.Default>;
 
 const Task = ({
   color,

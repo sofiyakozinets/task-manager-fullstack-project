@@ -3,11 +3,11 @@
 import React, { useMemo } from "react";
 import { SimpleGrid } from "@mantine/core";
 
-import { CompletedInterface, IDInterface, TaskInterface } from "lib/types";
+import { ID, TaskInterface } from "lib/types";
 
 import Task from "../Task";
 
-const sortTasks = <T extends CompletedInterface>(tasks: readonly T[]): T[] => {
+const sortTasks = <T extends { completed: boolean }>(tasks: T[]): T[] => {
   const toDoTasks: T[] = tasks.filter((task: T) => !task.completed);
   const completedTasks: T[] = tasks.filter((task: T) => task.completed);
 
@@ -15,13 +15,10 @@ const sortTasks = <T extends CompletedInterface>(tasks: readonly T[]): T[] => {
 };
 
 type TaskListProps = {
-  tasks: ReadonlyArray<TaskInterface>;
-  onCompleteTaskToggle: ({
-    completed,
-    id
-  }: IDInterface & CompletedInterface) => void;
-  onDeleteTask: ({ id }: IDInterface) => void;
-  onOpen: ({ id }: IDInterface) => void;
+  tasks: Array<TaskInterface>;
+  onCompleteTaskToggle: (args: { id: ID; completed: boolean }) => void;
+  onDeleteTask: (args: { id: ID }) => void;
+  onOpen: (args: { id: ID }) => void;
 };
 
 const TaskList = ({
@@ -30,7 +27,7 @@ const TaskList = ({
   onOpen,
   tasks
 }: TaskListProps) => {
-  const sortedTasks: ReadonlyArray<TaskInterface> = useMemo(
+  const sortedTasks: TaskInterface[] = useMemo(
     () => sortTasks<TaskInterface>(tasks),
     [tasks]
   );

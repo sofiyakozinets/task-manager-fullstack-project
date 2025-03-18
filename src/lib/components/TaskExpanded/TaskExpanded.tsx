@@ -4,12 +4,9 @@ import React from "react";
 import { Button, Card, Group, Text, Title } from "@mantine/core";
 
 import { COLORS } from "lib/constants/colors";
-import { BaseTaskInterface } from "lib/types";
+import { TaskComponentProps, TaskVariant } from "lib/types";
 
-interface TaskExpandedProps extends BaseTaskInterface {
-  onCompleteToggle: () => void;
-  onDelete: () => void;
-}
+type TaskExpandedProps = TaskComponentProps<TaskVariant.Expanded>;
 
 const TaskExpanded = ({
   color,

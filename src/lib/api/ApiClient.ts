@@ -1,9 +1,17 @@
-import { IDInterface, TaskFormInput, TaskInterface } from "lib/types";
+import {
+  ApiEndpoints,
+  ApiErrors,
+  ApiPath,
+  ApiResponses,
+  CreateTaskData,
+  ID,
+  UpdateTaskData
+} from "lib/types";
 
 export class ApiClient {
   private static instance: ApiClient;
 
-  // Use singleton design pattern
+  // Use Singleton design pattern
   public static getInstance(): ApiClient {
     if (!ApiClient.instance) {
       ApiClient.instance = new ApiClient();
@@ -14,82 +22,89 @@ export class ApiClient {
 
   private readonly baseUrl: string = "/api";
 
+  private readonly errorMessages: ApiErrors = {
+    createTask: {
+      default: "Failed to create a task"
+    },
+    deleteTask: {
+      default: "Failed to delete the task"
+    },
+    fetchTask: {
+      404: "Task with this ID does not exist",
+      default: "Failed to fetch the task"
+    },
+    fetchTasks: {
+      default: "Failed to fetch tasks"
+    },
+    updateTask: {
+      default: "Failed to update the task"
+    }
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
-  // eslint-disable-next-line class-methods-use-this
-  private async handleResponse<T>(
+  private async handleResponse<K extends keyof ApiEndpoints>(
     response: Response,
-    errorContext: string,
-    errorByStatus?: { [key: string]: string }
-  ): Promise<T> {
+    endpoint: K
+  ): Promise<ApiEndpoints[K]> {
     if (!response.ok) {
-      const status = response.status.toString();
+      const errors: ApiErrors[K] = this.errorMessages[endpoint];
 
-      if (errorByStatus && status in errorByStatus) {
-        throw new Error(errorByStatus[status]);
+      if (response.status === 404 && errors[404]) {
+        throw new Error(errors[404]);
       }
 
-      throw new Error(`Failed to ${errorContext} with status ${status}`);
+      throw new Error(errors.default);
     }
 
-    return response.json();
+    return response.status === 204
+      ? (undefined as void as ApiEndpoints[K])
+      : response.json();
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private async handleEmptyResponse(
-    response: Response,
-    errorContext: string
-  ): Promise<void> {
-    if (!response.ok) {
-      throw new Error(
-        `Failed to ${errorContext} with status ${response.status}`
-      );
-    }
-  }
-
-  public async deleteTask({ id }: IDInterface): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/tasks/${id}`, {
+  public async deleteTask({ id }: { id: ID }): ApiResponses["deleteTask"] {
+    const response = await fetch(`${this.baseUrl}/tasks/${id}` as ApiPath, {
       method: "DELETE"
     });
 
-    await this.handleEmptyResponse(response, "delete the task");
+    return this.handleResponse(response, "deleteTask");
   }
 
-  public async fetchTasks(): Promise<TaskInterface[]> {
-    const response = await fetch(`${this.baseUrl}/tasks`);
+  public async fetchTasks(): ApiResponses["fetchTasks"] {
+    const response = await fetch(`${this.baseUrl}/tasks` as ApiPath);
 
-    return this.handleResponse<TaskInterface[]>(response, "fetch tasks");
+    return this.handleResponse(response, "fetchTasks");
   }
 
-  public async fetchTask({ id }: IDInterface): Promise<TaskInterface> {
-    const response = await fetch(`${this.baseUrl}/tasks/${id}`);
+  public async fetchTask({ id }: { id: ID }): ApiResponses["fetchTask"] {
+    const response = await fetch(`${this.baseUrl}/tasks/${id}` as ApiPath);
 
-    return this.handleResponse<TaskInterface>(response, "fetch the task", {
-      404: "Task with this ID does not exist"
-    });
+    return this.handleResponse(response, "fetchTask");
   }
 
-  public async createTask(task: TaskFormInput): Promise<TaskInterface> {
-    const response = await fetch(`${this.baseUrl}/tasks`, {
+  public async createTask(task: CreateTaskData): ApiResponses["createTask"] {
+    const response = await fetch(`${this.baseUrl}/tasks` as ApiPath, {
       body: JSON.stringify(task),
       headers: { "Content-Type": "application/json" },
       method: "POST"
     });
 
-    return this.handleResponse<TaskInterface>(response, "create a task");
+    return this.handleResponse(response, "createTask");
   }
 
   public async updateTask({
     id,
     ...updatedTask
-  }: IDInterface & Partial<Omit<TaskInterface, "id">>): Promise<TaskInterface> {
-    const response = await fetch(`${this.baseUrl}/tasks/${id}`, {
+  }: {
+    id: ID;
+  } & UpdateTaskData): ApiResponses["updateTask"] {
+    const response = await fetch(`${this.baseUrl}/tasks/${id}` as ApiPath, {
       body: JSON.stringify(updatedTask),
       headers: { "Content-Type": "application/json" },
       method: "PATCH"
     });
 
-    return this.handleResponse<TaskInterface>(response, "update the task");
+    return this.handleResponse(response, "updateTask");
   }
 }

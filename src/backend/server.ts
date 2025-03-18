@@ -4,7 +4,7 @@ import * as process from "process";
 import cors from "cors";
 import express, { Request } from "express";
 
-import { ID, TaskInterface } from "lib/types";
+import { ID, TaskInterface, UpdateTaskData } from "lib/types";
 
 import prisma from "./prisma";
 
@@ -68,10 +68,7 @@ router.post(
 // Update a task by ID
 router.patch(
   "/tasks/:id",
-  async (
-    req: Request<{ id: ID }, object, Partial<Omit<TaskInterface, "id">>>,
-    res
-  ) => {
+  async (req: Request<{ id: ID }, object, UpdateTaskData>, res) => {
     try {
       const { id } = req.params;
       const updatedTask = req.body;
