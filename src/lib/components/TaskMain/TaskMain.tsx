@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import { Box, Text } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ import { getQueryClient } from "lib/utils/getQueryClient";
 
 import TaskExpanded from "../TaskExpanded";
 
-const TaskMain = ({ id: taskId }: { id: ID }) => {
+const TaskMain = React.memo(({ id: taskId }: { id: ID }) => {
   const router = useRouter();
 
   const {
@@ -38,19 +38,19 @@ const TaskMain = ({ id: taskId }: { id: ID }) => {
     }
   });
 
-  const handleCompleteTaskToggle = ({
-    completed,
-    id
-  }: {
-    id: ID;
-    completed: boolean;
-  }): void => {
-    updateTaskMutation.mutate({ completed, id });
-  };
+  const handleCompleteTaskToggle = useCallback(
+    ({ completed, id }: { id: ID; completed: boolean }): void => {
+      updateTaskMutation.mutate({ completed, id });
+    },
+    [updateTaskMutation]
+  );
 
-  const handleDeleteTask = ({ id }: { id: ID }): void => {
-    deleteTaskMutation.mutate({ id });
-  };
+  const handleDeleteTask = useCallback(
+    ({ id }: { id: ID }): void => {
+      deleteTaskMutation.mutate({ id });
+    },
+    [deleteTaskMutation]
+  );
 
   if (isPending) return <Text m="lg">Loading...</Text>;
   if (error) return <Text m="lg">Error: {error.message}</Text>;
@@ -73,6 +73,8 @@ const TaskMain = ({ id: taskId }: { id: ID }) => {
       />
     </Box>
   );
-};
+});
+
+TaskMain.displayName = "TaskMain";
 
 export default TaskMain;

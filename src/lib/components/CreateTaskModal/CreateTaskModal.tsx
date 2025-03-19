@@ -10,16 +10,20 @@ type CreateTaskModalProps = {
   close: () => void;
 };
 
-const CreateTaskModal = ({ close, opened }: CreateTaskModalProps) => (
-  <Modal
-    centered
-    data-cy="create-task-modal"
-    onClose={close}
-    opened={opened}
-    title="Create a task"
-  >
-    <CreateTaskForm onSubmitCallback={close} />
-  </Modal>
+const CreateTaskModal = React.memo(
+  ({ close, opened }: CreateTaskModalProps) => (
+    <Modal
+      centered
+      data-cy="create-task-modal"
+      onClose={close}
+      opened={opened}
+      title="Create a task"
+    >
+      <CreateTaskForm onSubmitCallback={close} />
+    </Modal>
+  )
 );
+
+CreateTaskModal.displayName = "CreateTaskModal";
 
 export default CreateTaskModal;

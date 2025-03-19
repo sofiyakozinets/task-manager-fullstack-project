@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import { Box, Text, Title } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -38,26 +38,29 @@ const Main = () => {
     }
   });
 
+  const handleCompleteTaskToggle = useCallback(
+    ({ completed, id }: { id: ID; completed: boolean }): void => {
+      updateTaskMutation.mutate({ completed, id });
+    },
+    [updateTaskMutation]
+  );
+
+  const handleDeleteTask = useCallback(
+    ({ id }: { id: ID }): void => {
+      deleteTaskMutation.mutate({ id });
+    },
+    [deleteTaskMutation]
+  );
+
+  const handleOpen = useCallback(
+    ({ id }: { id: ID }): void => {
+      router.push(`/task/${id}`);
+    },
+    [router]
+  );
+
   if (isPending) return <Text m="lg">Loading...</Text>;
   if (error) return <Text m="lg">Error: {error.message}</Text>;
-
-  const handleCompleteTaskToggle = ({
-    completed,
-    id
-  }: {
-    id: ID;
-    completed: boolean;
-  }): void => {
-    updateTaskMutation.mutate({ completed, id });
-  };
-
-  const handleDeleteTask = ({ id }: { id: ID }): void => {
-    deleteTaskMutation.mutate({ id });
-  };
-
-  const handleOpen = ({ id }: { id: ID }): void => {
-    router.push(`/task/${id}`);
-  };
 
   return (
     <Box p="lg">

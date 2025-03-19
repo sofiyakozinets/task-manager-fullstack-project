@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { ColorPicker as ColorPickerBase } from "@mantine/core";
 
 import { COLORS } from "lib/constants/colors";
@@ -33,10 +33,13 @@ type ColorPickerProps = {
   onPick: (color: Color) => void;
 };
 
-const ColorPicker = ({ onPick, pickedColor }: ColorPickerProps) => {
-  const handleChange = (colorHex: string): void => {
-    onPick(HEX_TO_COLOR[colorHex as ColorHex]);
-  };
+const ColorPicker = React.memo(({ onPick, pickedColor }: ColorPickerProps) => {
+  const handleChange = useCallback(
+    (colorHex: string): void => {
+      onPick(HEX_TO_COLOR[colorHex as ColorHex]);
+    },
+    [onPick]
+  );
 
   useEffect((): void => {
     document
@@ -63,6 +66,8 @@ const ColorPicker = ({ onPick, pickedColor }: ColorPickerProps) => {
       withPicker={false}
     />
   );
-};
+});
+
+ColorPicker.displayName = "ColorPicker";
 
 export default ColorPicker;

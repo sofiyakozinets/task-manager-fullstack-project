@@ -21,38 +21,37 @@ type TaskListProps = {
   onOpen: (args: { id: ID }) => void;
 };
 
-const TaskList = ({
-  onCompleteTaskToggle,
-  onDeleteTask,
-  onOpen,
-  tasks
-}: TaskListProps) => {
-  const sortedTasks: TaskInterface[] = useMemo(
-    () => sortTasks<TaskInterface>(tasks),
-    [tasks]
-  );
+const TaskList = React.memo(
+  ({ onCompleteTaskToggle, onDeleteTask, onOpen, tasks }: TaskListProps) => {
+    const sortedTasks: TaskInterface[] = useMemo(
+      () => sortTasks<TaskInterface>(tasks),
+      [tasks]
+    );
 
-  return (
-    <SimpleGrid cols={3}>
-      {sortedTasks.map((task: TaskInterface) => (
-        <Task
-          key={task.id}
-          color={task.color}
-          completed={task.completed}
-          description={task.description}
-          onCompleteToggle={() =>
-            onCompleteTaskToggle({
-              completed: !task.completed,
-              id: task.id
-            })
-          }
-          onDelete={() => onDeleteTask({ id: task.id })}
-          onOpen={() => onOpen({ id: task.id })}
-          title={task.title}
-        />
-      ))}
-    </SimpleGrid>
-  );
-};
+    return (
+      <SimpleGrid cols={3}>
+        {sortedTasks.map((task: TaskInterface) => (
+          <Task
+            key={task.id}
+            color={task.color}
+            completed={task.completed}
+            description={task.description}
+            onCompleteToggle={() =>
+              onCompleteTaskToggle({
+                completed: !task.completed,
+                id: task.id
+              })
+            }
+            onDelete={() => onDeleteTask({ id: task.id })}
+            onOpen={() => onOpen({ id: task.id })}
+            title={task.title}
+          />
+        ))}
+      </SimpleGrid>
+    );
+  }
+);
+
+TaskList.displayName = "TaskList";
 
 export default TaskList;
