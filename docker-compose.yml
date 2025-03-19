@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: server-runner
+    ports:
+      - "5001:5001"
+    environment:
+      - NODE_ENV=production
+      - API_PORT=5001
+      - DATABASE_URL=file:///app/prisma/database.db
+    volumes:
+      - ./prisma:/app/prisma
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  client:
+    depends_on:
+      - server
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: client-runner
+      args:
+        - NEXT_PUBLIC_NODE_ENV=production
+        - NEXT_PUBLIC_API_URL=http://server:5001
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://server:5001
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  eslint:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: linter
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

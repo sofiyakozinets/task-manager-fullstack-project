@@ -1,0 +1,7 @@
+.DS_Store
+.git
+.next
+.yarn
+node_modules
+prisma/database.db
+docker-compose.yml

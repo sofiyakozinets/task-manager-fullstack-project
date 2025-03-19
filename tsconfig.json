@@ -1,27 +1,57 @@
 {
   "compilerOptions": {
+    // Output & Module System
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    // Type Checking
     "strict": true,
-    "noEmit": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "allowUnreachableCode": false,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "useUnknownInCatchVariables": true,
+
+    // Compatibility & Optimization
+    "jsx": "preserve",
+    "allowJs": false,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
     "incremental": true,
+    "noEmit": true,
+    "removeComments": true,
+    "skipLibCheck": true,
+
+    // Environment
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["@prisma/client"],
     "plugins": [
       {
         "name": "next"
       }
     ],
+
+    // Base Directory & Paths
+    "baseUrl": "./src/",
     "paths": {
-      "@components/*": ["./src/*"]
+      "lib/*": ["lib/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "cypress.config.ts",
+    "next.config.ts",
+    "next-env.d.ts",
+    ".eslintrc.json",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
